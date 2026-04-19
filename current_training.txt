@@ -1,0 +1,792 @@
+(gnn) shashank@ubuntu-Standard-PC-Q35-ICH9-2009:~/GNN/reddit$ python -m reddit_gnn.scripts.run_all_baselines
+============================================================
+REDDIT GNN — BASELINE TRAINING SUITE
+Device: cuda:0
+Seeds: [0, 1, 2]
+============================================================
+
+Loading preprocessed data...
+  Nodes: 232,965, Edges: 114,615,892
+[sgc seed=0]:   0%|                                                                                                                 | 0/18 [00:00<?, ?run/s]
+============================================================
+SGC Baseline (K=2, seed=0)
+============================================================
+  [SGC K=2] Loaded features: /home/shashank/GNN/reddit/reddit_gnn/data_store/preprocessed/sgc/reddit_sgc_K2.pt → torch.Size([232965, 602])
+[SGC K=2] Training: 100%|█████████| 100/100 [00:02<00:00, 44.71epoch/s, best=0.9338, t=13ms, tr_acc=0.9247, tr_loss=0.4175, val_acc=0.9162, val_loss=0.4328]
+  [SGC K=2] Best val acc: 0.9338
+[sgc seed=0]:   0%|                                                                                                                 | 0/18 [00:03<?, ?run/s]
+============================================================
+Classification Report: SGC (K=2)
+============================================================
+              precision    recall  f1-score   support
+
+           0     0.9746    0.9588    0.9667      3207
+           1     0.9775    0.9615    0.9694       857
+           2     0.9694    0.8102    0.8827       743
+           3     0.9803    0.9931    0.9867      3200
+           4     0.9089    0.8171    0.8606       525
+           5     0.9533    0.9322    0.9426       855
+           6     0.9497    0.9212    0.9352       799
+           7     0.9696    0.7565    0.8499       464
+           8     0.9277    0.9893    0.9575      2517
+           9     0.9878    0.8752    0.9281       553
+          10     0.9193    0.9664    0.9422      1072
+          11     0.9849    0.9909    0.9879       657
+          12     0.8915    0.9356    0.9130       404
+          13     0.6688    0.7102    0.6889       597
+          14     0.9766    0.9726    0.9746      1204
+          15     0.9535    0.9916    0.9722      8262
+          16     0.9099    0.5206    0.6623       194
+          17     0.9776    0.9136    0.9446       718
+          18     0.9323    0.9758    0.9535      3428
+          19     0.9102    0.9257    0.9179      2288
+          20     1.0000    0.9137    0.9549       371
+          21     0.9825    0.9623    0.9723       875
+          22     0.6716    0.8765    0.7605      2065
+          23     0.9406    0.9582    0.9493      2777
+          24     0.9773    0.5733    0.7227        75
+          25     0.9749    0.6638    0.7898       351
+          26     0.9627    0.9638    0.9632       938
+          27     0.8009    0.8217    0.8112      1307
+          28     0.9741    0.9358    0.9545       965
+          29     0.9339    0.9158    0.9248       879
+          30     0.7981    0.4659    0.5883       704
+          31     0.9493    0.9714    0.9603       945
+          32     0.9675    0.4627    0.6261       322
+          33     0.8932    0.8980    0.8956      1118
+          34     0.9690    0.9470    0.9579       793
+          35     0.9860    0.9463    0.9658       969
+          36     0.9551    0.9551    0.9551       890
+          37     0.9296    0.8546    0.8905      1004
+          38     0.9665    0.9780    0.9722      3862
+          39     0.8865    0.7032    0.7843       711
+          40     0.9684    0.9152    0.9410      1238
+
+    accuracy                         0.9306     55703
+   macro avg     0.9320    0.8683    0.8921     55703
+weighted avg     0.9335    0.9306    0.9294     55703
+
+  Checkpoint saved: /home/shashank/GNN/reddit/reddit_gnn/results/checkpoints/sgc/baseline/default/seed0/best_model.pt
+  Results saved: /home/shashank/GNN/reddit/reddit_gnn/results/sgc/baseline/default/seed0
+  ✓ sgc seed=0: acc=0.9306
+[sgc seed=1]:   6%|█████▊                                                                                                   | 1/18 [00:03<01:04,  3.77s/run]
+============================================================
+SGC Baseline (K=2, seed=1)
+============================================================
+  [SGC K=2] Loaded features: /home/shashank/GNN/reddit/reddit_gnn/data_store/preprocessed/sgc/reddit_sgc_K2.pt → torch.Size([232965, 602])
+  [SGC K=2] Early stopping at epoch 17
+[SGC K=2] Training:  17%|█▋        | 17/100 [00:00<00:01, 56.20epoch/s, best=0.9230, t=13ms, tr_acc=0.9157, tr_loss=0.4958, val_acc=0.9189, val_loss=0.5440]
+  [SGC K=2] Best val acc: 0.9230
+[sgc seed=1]:   6%|█████▊                                                                                                   | 1/18 [00:04<01:04,  3.77s/run]
+============================================================
+Classification Report: SGC (K=2)
+============================================================
+              precision    recall  f1-score   support
+
+           0     0.9567    0.9654    0.9610      3207
+           1     0.9696    0.9662    0.9679       857
+           2     0.9630    0.8048    0.8768       743
+           3     0.9565    0.9966    0.9761      3200
+           4     0.6743    0.8400    0.7481       525
+           5     0.9572    0.8374    0.8933       855
+           6     0.9657    0.8110    0.8816       799
+           7     0.9347    0.8017    0.8631       464
+           8     0.8191    0.9913    0.8970      2517
+           9     0.9909    0.7848    0.8759       553
+          10     0.8922    0.9729    0.9308      1072
+          11     0.9478    0.9954    0.9710       657
+          12     0.9559    0.4827    0.6414       404
+          13     0.9110    0.4975    0.6436       597
+          14     0.9617    0.9801    0.9708      1204
+          15     0.9613    0.9862    0.9736      8262
+          16     0.6828    0.5103    0.5841       194
+          17     0.9712    0.8454    0.9039       718
+          18     0.9155    0.9702    0.9421      3428
+          19     0.8777    0.9288    0.9025      2288
+          20     1.0000    0.8652    0.9277       371
+          21     0.9573    0.9737    0.9654       875
+          22     0.7392    0.8344    0.7839      2065
+          23     0.9002    0.9586    0.9285      2777
+          24     0.9677    0.4000    0.5660        75
+          25     0.7010    0.6011    0.6472       351
+          26     0.9707    0.9542    0.9624       938
+          27     0.7332    0.8240    0.7759      1307
+          28     0.9558    0.9409    0.9483       965
+          29     0.9070    0.9101    0.9086       879
+          30     0.8676    0.3537    0.5025       704
+          31     0.9129    0.9757    0.9432       945
+          32     0.9588    0.5062    0.6626       322
+          33     0.7249    0.6386    0.6790      1118
+          34     0.9535    0.9571    0.9553       793
+          35     0.9658    0.9608    0.9633       969
+          36     0.9603    0.9517    0.9560       890
+          37     0.9257    0.8566    0.8898      1004
+          38     0.9542    0.9770    0.9655      3862
+          39     0.8746    0.6864    0.7691       711
+          40     0.9499    0.9192    0.9343      1238
+
+    accuracy                         0.9122     55703
+   macro avg     0.9060    0.8296    0.8546     55703
+weighted avg     0.9145    0.9122    0.9086     55703
+
+  Checkpoint saved: /home/shashank/GNN/reddit/reddit_gnn/results/checkpoints/sgc/baseline/default/seed1/best_model.pt
+  Results saved: /home/shashank/GNN/reddit/reddit_gnn/results/sgc/baseline/default/seed1
+  ✓ sgc seed=1: acc=0.9122
+[sgc seed=2]:  11%|███████████▋                                                                                             | 2/18 [00:05<00:39,  2.48s/run]
+============================================================
+SGC Baseline (K=2, seed=2)
+============================================================
+  [SGC K=2] Loaded features: /home/shashank/GNN/reddit/reddit_gnn/data_store/preprocessed/sgc/reddit_sgc_K2.pt → torch.Size([232965, 602])
+  [SGC K=2] Early stopping at epoch 16
+[SGC K=2] Training:  16%|█▌        | 16/100 [00:00<00:01, 56.11epoch/s, best=0.9213, t=13ms, tr_acc=0.9112, tr_loss=0.5157, val_acc=0.9213, val_loss=0.5484]
+  [SGC K=2] Best val acc: 0.9213
+[sgc seed=2]:  11%|███████████▋                                                                                             | 2/18 [00:06<00:39,  2.48s/run]
+============================================================
+Classification Report: SGC (K=2)
+============================================================
+              precision    recall  f1-score   support
+
+           0     0.9582    0.9651    0.9616      3207
+           1     0.9640    0.9697    0.9668       857
+           2     0.9067    0.8896    0.8981       743
+           3     0.9556    0.9962    0.9755      3200
+           4     0.9188    0.8190    0.8661       525
+           5     0.8997    0.9544    0.9262       855
+           6     0.9618    0.8185    0.8844       799
+           7     0.9474    0.7759    0.8531       464
+           8     0.7799    0.9913    0.8730      2517
+           9     1.0000    0.6474    0.7859       553
+          10     0.9146    0.9692    0.9411      1072
+          11     0.9397    0.9954    0.9667       657
+          12     0.8929    0.9282    0.9102       404
+          13     0.8338    0.4958    0.6218       597
+          14     0.9617    0.9792    0.9704      1204
+          15     0.9713    0.9855    0.9783      8262
+          16     0.8333    0.4381    0.5743       194
+          17     0.9739    0.8844    0.9270       718
+          18     0.9163    0.9705    0.9426      3428
+          19     0.8767    0.9327    0.9039      2288
+          20     0.9856    0.9218    0.9526       371
+          21     0.9596    0.9760    0.9677       875
+          22     0.7586    0.8262    0.7909      2065
+          23     0.8947    0.9550    0.9239      2777
+          24     0.8571    0.0800    0.1463        75
+          25     0.4887    0.7977    0.6061       351
+          26     0.9716    0.9499    0.9606       938
+          27     0.7931    0.8034    0.7982      1307
+          28     0.9559    0.9430    0.9494       965
+          29     0.9078    0.9078    0.9078       879
+          30     0.8214    0.3920    0.5308       704
+          31     0.9201    0.9746    0.9466       945
+          32     0.9467    0.4969    0.6517       322
+          33     0.8124    0.4454    0.5754      1118
+          34     0.9611    0.9647    0.9629       793
+          35     0.9687    0.9577    0.9632       969
+          36     0.9563    0.9596    0.9579       890
+          37     0.8987    0.8655    0.8818      1004
+          38     0.9530    0.9772    0.9650      3862
+          39     0.9067    0.6695    0.7702       711
+          40     0.9550    0.9249    0.9397      1238
+
+    accuracy                         0.9139     55703
+   macro avg     0.9044    0.8340    0.8506     55703
+weighted avg     0.9162    0.9139    0.9096     55703
+
+  Checkpoint saved: /home/shashank/GNN/reddit/reddit_gnn/results/checkpoints/sgc/baseline/default/seed2/best_model.pt
+  Results saved: /home/shashank/GNN/reddit/reddit_gnn/results/sgc/baseline/default/seed2
+  ✓ sgc seed=2: acc=0.9139
+  sgc AGGREGATE: acc=0.9189 ± 0.0083
+[graphsage seed=0]:  17%|████████████████▌                                                                                  | 3/18 [00:06<00:30,  2.05s/run]
+============================================================
+GraphSAGE Baseline (seed=0, params=330,025)
+============================================================
+[GraphSAGE] Training:   0%|                                                                                                       | 0/50 [01:01<?, ?epoch/s]
+  ✗ graphsage seed=0 FAILED: CUDA out of memory. Tried to allocate 208.72 GiB. GPU 0 has a total capacity of 19.70 GiB of which 16.34 GiB is free. Including non-PyTorch memory, this process has 3.35 GiB memory in use. Of the allocated memory 2.86 GiB is allocated by PyTorch, and 273.57 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[graphsage seed=0]:  17%|████████████████▌                                                                                  | 3/18 [01:17<00:30,  2.05s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 57, in run_graphsage_baseline
+    history = train_neighbor_sampled(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 152, in train_neighbor_sampled
+    val_acc, val_loss = evaluate_neighbor(model, val_loader, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 44, in evaluate_neighbor
+    out = model(batch.x, batch.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/graphsage.py", line 70, in forward
+    x = conv(x, edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/sage_conv.py", line 134, in forward
+    out = self.propagate(edge_index, x=x, size=size)
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_8uzyshr5.py", line 173, in propagate
+    kwargs = self.collect(
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_8uzyshr5.py", line 83, in collect
+    x_j = self._index_select(_x_0, edge_index_j)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 267, in _index_select
+    return self._index_select_safe(src, index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 290, in _index_select_safe
+    raise e
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 271, in _index_select_safe
+    return src.index_select(self.node_dim, index)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 208.72 GiB. GPU 0 has a total capacity of 19.70 GiB of which 16.34 GiB is free. Including non-PyTorch memory, this process has 3.35 GiB memory in use. Of the allocated memory 2.86 GiB is allocated by PyTorch, and 273.57 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[graphsage seed=1]:  22%|██████████████████████                                                                             | 4/18 [01:17<06:48, 29.21s/run]
+============================================================
+GraphSAGE Baseline (seed=1, params=330,025)
+============================================================
+[GraphSAGE] Training:   0%|                                                                                                       | 0/50 [01:01<?, ?epoch/s]
+  ✗ graphsage seed=1 FAILED: CUDA out of memory. Tried to allocate 208.72 GiB. GPU 0 has a total capacity of 19.70 GiB of which 16.58 GiB is free. Including non-PyTorch memory, this process has 3.11 GiB memory in use. Of the allocated memory 2.86 GiB is allocated by PyTorch, and 30.27 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[graphsage seed=1]:  22%|██████████████████████                                                                             | 4/18 [02:29<06:48, 29.21s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 57, in run_graphsage_baseline
+    history = train_neighbor_sampled(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 152, in train_neighbor_sampled
+    val_acc, val_loss = evaluate_neighbor(model, val_loader, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 44, in evaluate_neighbor
+    out = model(batch.x, batch.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/graphsage.py", line 70, in forward
+    x = conv(x, edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/sage_conv.py", line 134, in forward
+    out = self.propagate(edge_index, x=x, size=size)
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_8uzyshr5.py", line 173, in propagate
+    kwargs = self.collect(
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_8uzyshr5.py", line 83, in collect
+    x_j = self._index_select(_x_0, edge_index_j)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 267, in _index_select
+    return self._index_select_safe(src, index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 290, in _index_select_safe
+    raise e
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 271, in _index_select_safe
+    return src.index_select(self.node_dim, index)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 208.72 GiB. GPU 0 has a total capacity of 19.70 GiB of which 16.58 GiB is free. Including non-PyTorch memory, this process has 3.11 GiB memory in use. Of the allocated memory 2.86 GiB is allocated by PyTorch, and 30.27 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[graphsage seed=2]:  28%|███████████████████████████▌                                                                       | 5/18 [02:29<09:37, 44.40s/run]
+============================================================
+GraphSAGE Baseline (seed=2, params=330,025)
+============================================================
+[GraphSAGE] Training:   0%|                                                                                                       | 0/50 [00:57<?, ?epoch/s]
+  ✗ graphsage seed=2 FAILED: CUDA out of memory. Tried to allocate 208.72 GiB. GPU 0 has a total capacity of 19.70 GiB of which 16.58 GiB is free. Including non-PyTorch memory, this process has 3.12 GiB memory in use. Of the allocated memory 2.86 GiB is allocated by PyTorch, and 32.59 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[graphsage seed=2]:  28%|███████████████████████████▌                                                                       | 5/18 [03:37<09:37, 44.40s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 57, in run_graphsage_baseline
+    history = train_neighbor_sampled(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 152, in train_neighbor_sampled
+    val_acc, val_loss = evaluate_neighbor(model, val_loader, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 44, in evaluate_neighbor
+    out = model(batch.x, batch.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/graphsage.py", line 70, in forward
+    x = conv(x, edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/sage_conv.py", line 134, in forward
+    out = self.propagate(edge_index, x=x, size=size)
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_8uzyshr5.py", line 173, in propagate
+    kwargs = self.collect(
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_8uzyshr5.py", line 83, in collect
+    x_j = self._index_select(_x_0, edge_index_j)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 267, in _index_select
+    return self._index_select_safe(src, index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 290, in _index_select_safe
+    raise e
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 271, in _index_select_safe
+    return src.index_select(self.node_dim, index)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 208.72 GiB. GPU 0 has a total capacity of 19.70 GiB of which 16.58 GiB is free. Including non-PyTorch memory, this process has 3.12 GiB memory in use. Of the allocated memory 2.86 GiB is allocated by PyTorch, and 32.59 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gat seed=0]:  33%|███████████████████████████████████                                                                      | 6/18 [03:37<10:29, 52.44s/run]
+============================================================
+GAT Baseline (seed=0, params=166,011)
+============================================================
+[GAT] Training:   0%|                                                                                                             | 0/50 [01:05<?, ?epoch/s]
+  ✗ gat seed=0 FAILED: CUDA out of memory. Tried to allocate 2.78 GiB. GPU 0 has a total capacity of 19.70 GiB of which 932.88 MiB is free. Including non-PyTorch memory, this process has 18.78 GiB memory in use. Of the allocated memory 18.40 GiB is allocated by PyTorch, and 164.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gat seed=0]:  33%|███████████████████████████████████                                                                      | 6/18 [04:57<10:29, 52.44s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 133, in run_gat_baseline
+    history = train_neighbor_sampled(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 152, in train_neighbor_sampled
+    val_acc, val_loss = evaluate_neighbor(model, val_loader, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 44, in evaluate_neighbor
+    out = model(batch.x, batch.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/gat.py", line 86, in forward
+    x = conv(x, edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gat_conv.py", line 362, in forward
+    alpha = self.edge_updater(edge_index, alpha=alpha, edge_attr=edge_attr,
+  File "/tmp/torch_geometric.nn.conv.gat_conv_GATConv_edge_updater_hzuyzadx.py", line 176, in edge_updater
+    out = self.edge_update(
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gat_conv.py", line 409, in edge_update
+    alpha = softmax(alpha, index, ptr, dim_size)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/utils/_softmax.py", line 83, in softmax
+    return out / out_sum
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.78 GiB. GPU 0 has a total capacity of 19.70 GiB of which 932.88 MiB is free. Including non-PyTorch memory, this process has 18.78 GiB memory in use. Of the allocated memory 18.40 GiB is allocated by PyTorch, and 164.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gat seed=1]:  39%|████████████████████████████████████████▊                                                                | 7/18 [04:57<11:17, 61.57s/run]
+============================================================
+GAT Baseline (seed=1, params=166,011)
+============================================================
+[GAT] Training:   0%|                                                                                                             | 0/50 [01:04<?, ?epoch/s]
+  ✗ gat seed=1 FAILED: CUDA out of memory. Tried to allocate 2.78 GiB. GPU 0 has a total capacity of 19.70 GiB of which 936.88 MiB is free. Including non-PyTorch memory, this process has 18.78 GiB memory in use. Of the allocated memory 18.40 GiB is allocated by PyTorch, and 162.71 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gat seed=1]:  39%|████████████████████████████████████████▊                                                                | 7/18 [06:12<11:17, 61.57s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 133, in run_gat_baseline
+    history = train_neighbor_sampled(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 152, in train_neighbor_sampled
+    val_acc, val_loss = evaluate_neighbor(model, val_loader, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 44, in evaluate_neighbor
+    out = model(batch.x, batch.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/gat.py", line 86, in forward
+    x = conv(x, edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gat_conv.py", line 362, in forward
+    alpha = self.edge_updater(edge_index, alpha=alpha, edge_attr=edge_attr,
+  File "/tmp/torch_geometric.nn.conv.gat_conv_GATConv_edge_updater_hzuyzadx.py", line 176, in edge_updater
+    out = self.edge_update(
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gat_conv.py", line 409, in edge_update
+    alpha = softmax(alpha, index, ptr, dim_size)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/utils/_softmax.py", line 83, in softmax
+    return out / out_sum
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.78 GiB. GPU 0 has a total capacity of 19.70 GiB of which 936.88 MiB is free. Including non-PyTorch memory, this process has 18.78 GiB memory in use. Of the allocated memory 18.40 GiB is allocated by PyTorch, and 162.71 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gat seed=2]:  44%|██████████████████████████████████████████████▋                                                          | 8/18 [06:12<10:57, 65.77s/run]
+============================================================
+GAT Baseline (seed=2, params=166,011)
+============================================================
+[GAT] Training:   0%|                                                                                                             | 0/50 [01:01<?, ?epoch/s]
+  ✗ gat seed=2 FAILED: CUDA out of memory. Tried to allocate 2.78 GiB. GPU 0 has a total capacity of 19.70 GiB of which 932.88 MiB is free. Including non-PyTorch memory, this process has 18.78 GiB memory in use. Of the allocated memory 18.40 GiB is allocated by PyTorch, and 163.44 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gat seed=2]:  44%|██████████████████████████████████████████████▋                                                          | 8/18 [07:23<10:57, 65.77s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 133, in run_gat_baseline
+    history = train_neighbor_sampled(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 152, in train_neighbor_sampled
+    val_acc, val_loss = evaluate_neighbor(model, val_loader, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 44, in evaluate_neighbor
+    out = model(batch.x, batch.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/gat.py", line 86, in forward
+    x = conv(x, edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gat_conv.py", line 362, in forward
+    alpha = self.edge_updater(edge_index, alpha=alpha, edge_attr=edge_attr,
+  File "/tmp/torch_geometric.nn.conv.gat_conv_GATConv_edge_updater_hzuyzadx.py", line 176, in edge_updater
+    out = self.edge_update(
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gat_conv.py", line 409, in edge_update
+    alpha = softmax(alpha, index, ptr, dim_size)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/utils/_softmax.py", line 83, in softmax
+    return out / out_sum
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.78 GiB. GPU 0 has a total capacity of 19.70 GiB of which 932.88 MiB is free. Including non-PyTorch memory, this process has 18.78 GiB memory in use. Of the allocated memory 18.40 GiB is allocated by PyTorch, and 163.44 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gatv2 seed=0]:  50%|███████████████████████████████████████████████████▌                                                   | 9/18 [07:23<10:07, 67.50s/run]
+============================================================
+GATv2 Baseline (seed=0, params=166,011)
+============================================================
+[GATv2] Training:   0%|                                                                                                           | 0/50 [01:07<?, ?epoch/s]
+  ✗ gatv2 seed=0 FAILED: CUDA out of memory. Tried to allocate 88.98 GiB. GPU 0 has a total capacity of 19.70 GiB of which 14.88 GiB is free. Including non-PyTorch memory, this process has 4.81 GiB memory in use. Of the allocated memory 4.47 GiB is allocated by PyTorch, and 121.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gatv2 seed=0]:  50%|███████████████████████████████████████████████████▌                                                   | 9/18 [08:46<10:07, 67.50s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 175, in run_gatv2_baseline
+    history = train_neighbor_sampled(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 152, in train_neighbor_sampled
+    val_acc, val_loss = evaluate_neighbor(model, val_loader, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 44, in evaluate_neighbor
+    out = model(batch.x, batch.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/gatv2.py", line 86, in forward
+    x = conv(x, edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gatv2_conv.py", line 325, in forward
+    alpha = self.edge_updater(edge_index, x=(x_l, x_r),
+  File "/tmp/torch_geometric.nn.conv.gatv2_conv_GATv2Conv_edge_updater_7ewiz48t.py", line 145, in edge_updater
+    kwargs = self.edge_collect(
+  File "/tmp/torch_geometric.nn.conv.gatv2_conv_GATv2Conv_edge_updater_7ewiz48t.py", line 91, in edge_collect
+    x_j = self._index_select(_x_0, edge_index_j)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 267, in _index_select
+    return self._index_select_safe(src, index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 290, in _index_select_safe
+    raise e
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 271, in _index_select_safe
+    return src.index_select(self.node_dim, index)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 88.98 GiB. GPU 0 has a total capacity of 19.70 GiB of which 14.88 GiB is free. Including non-PyTorch memory, this process has 4.81 GiB memory in use. Of the allocated memory 4.47 GiB is allocated by PyTorch, and 121.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gatv2 seed=1]:  56%|████████████████████████████████████████████████████████▋                                             | 10/18 [08:46<09:38, 72.35s/run]
+============================================================
+GATv2 Baseline (seed=1, params=166,011)
+============================================================
+[GATv2] Training:   0%|                                                                                                           | 0/50 [01:05<?, ?epoch/s]
+  ✗ gatv2 seed=1 FAILED: CUDA out of memory. Tried to allocate 88.98 GiB. GPU 0 has a total capacity of 19.70 GiB of which 14.88 GiB is free. Including non-PyTorch memory, this process has 4.82 GiB memory in use. Of the allocated memory 4.47 GiB is allocated by PyTorch, and 126.02 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gatv2 seed=1]:  56%|████████████████████████████████████████████████████████▋                                             | 10/18 [10:02<09:38, 72.35s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 175, in run_gatv2_baseline
+    history = train_neighbor_sampled(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 152, in train_neighbor_sampled
+    val_acc, val_loss = evaluate_neighbor(model, val_loader, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 44, in evaluate_neighbor
+    out = model(batch.x, batch.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/gatv2.py", line 86, in forward
+    x = conv(x, edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gatv2_conv.py", line 325, in forward
+    alpha = self.edge_updater(edge_index, x=(x_l, x_r),
+  File "/tmp/torch_geometric.nn.conv.gatv2_conv_GATv2Conv_edge_updater_7ewiz48t.py", line 145, in edge_updater
+    kwargs = self.edge_collect(
+  File "/tmp/torch_geometric.nn.conv.gatv2_conv_GATv2Conv_edge_updater_7ewiz48t.py", line 91, in edge_collect
+    x_j = self._index_select(_x_0, edge_index_j)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 267, in _index_select
+    return self._index_select_safe(src, index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 290, in _index_select_safe
+    raise e
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 271, in _index_select_safe
+    return src.index_select(self.node_dim, index)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 88.98 GiB. GPU 0 has a total capacity of 19.70 GiB of which 14.88 GiB is free. Including non-PyTorch memory, this process has 4.82 GiB memory in use. Of the allocated memory 4.47 GiB is allocated by PyTorch, and 126.02 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gatv2 seed=2]:  61%|██████████████████████████████████████████████████████████████▎                                       | 11/18 [10:02<08:34, 73.43s/run]
+============================================================
+GATv2 Baseline (seed=2, params=166,011)
+============================================================
+[GATv2] Training:   0%|                                                                                                           | 0/50 [01:02<?, ?epoch/s]
+  ✗ gatv2 seed=2 FAILED: CUDA out of memory. Tried to allocate 88.98 GiB. GPU 0 has a total capacity of 19.70 GiB of which 14.77 GiB is free. Including non-PyTorch memory, this process has 4.92 GiB memory in use. Of the allocated memory 4.47 GiB is allocated by PyTorch, and 232.26 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[gatv2 seed=2]:  61%|██████████████████████████████████████████████████████████████▎                                       | 11/18 [11:14<08:34, 73.43s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 175, in run_gatv2_baseline
+    history = train_neighbor_sampled(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 152, in train_neighbor_sampled
+    val_acc, val_loss = evaluate_neighbor(model, val_loader, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_neighbor.py", line 44, in evaluate_neighbor
+    out = model(batch.x, batch.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/gatv2.py", line 86, in forward
+    x = conv(x, edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gatv2_conv.py", line 325, in forward
+    alpha = self.edge_updater(edge_index, x=(x_l, x_r),
+  File "/tmp/torch_geometric.nn.conv.gatv2_conv_GATv2Conv_edge_updater_7ewiz48t.py", line 145, in edge_updater
+    kwargs = self.edge_collect(
+  File "/tmp/torch_geometric.nn.conv.gatv2_conv_GATv2Conv_edge_updater_7ewiz48t.py", line 91, in edge_collect
+    x_j = self._index_select(_x_0, edge_index_j)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 267, in _index_select
+    return self._index_select_safe(src, index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 290, in _index_select_safe
+    raise e
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 271, in _index_select_safe
+    return src.index_select(self.node_dim, index)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 88.98 GiB. GPU 0 has a total capacity of 19.70 GiB of which 14.77 GiB is free. Including non-PyTorch memory, this process has 4.92 GiB memory in use. Of the allocated memory 4.47 GiB is allocated by PyTorch, and 232.26 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[graphsaint seed=0]:  67%|████████████████████████████████████████████████████████████████▋                                | 12/18 [11:14<07:17, 72.95s/run]
+============================================================
+GraphSAINT Baseline (seed=0, params=165,417)
+============================================================
+[2D] GraphSAINT RandomWalk sampler (budget=6000, walk_length=2, num_steps=30, coverage=100)
+Compute GraphSAINT normalization: : 23700314it [10:48, 36527.85it/s]
+[GraphSAINT] Training:   0%|                                                                                                      | 0/30 [00:07<?, ?epoch/s]
+  ✗ graphsaint seed=0 FAILED: CUDA out of memory. Tried to allocate 109.53 GiB. GPU 0 has a total capacity of 19.70 GiB of which 10.99 GiB is free. Including non-PyTorch memory, this process has 8.71 GiB memory in use. Of the allocated memory 4.71 GiB is allocated by PyTorch, and 3.78 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[graphsaint seed=0]:  67%|████████████████████████████████████████████████████████████████▋                                | 12/18 [22:13<07:17, 72.95s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 219, in run_graphsaint_baseline
+    history = train_saint(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_saint.py", line 139, in train_saint
+    val_acc, val_loss = evaluate_saint(model, data, device)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_saint.py", line 32, in evaluate_saint
+    out = model(data_dev.x, data_dev.edge_index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/GNN/reddit/reddit_gnn/models/graphsaint.py", line 53, in forward
+    x = conv(x, edge_index, edge_weight)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/gcn_conv.py", line 263, in forward
+    out = self.propagate(edge_index, x=x, edge_weight=edge_weight)
+  File "/tmp/torch_geometric.nn.conv.gcn_conv_GCNConv_propagate_n9akplk9.py", line 183, in propagate
+    kwargs = self.collect(
+  File "/tmp/torch_geometric.nn.conv.gcn_conv_GCNConv_propagate_n9akplk9.py", line 96, in collect
+    x_j = self._index_select(x, edge_index_j)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 267, in _index_select
+    return self._index_select_safe(src, index)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 290, in _index_select_safe
+    raise e
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/nn/conv/message_passing.py", line 271, in _index_select_safe
+    return src.index_select(self.node_dim, index)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 109.53 GiB. GPU 0 has a total capacity of 19.70 GiB of which 10.99 GiB is free. Including non-PyTorch memory, this process has 8.71 GiB memory in use. Of the allocated memory 4.71 GiB is allocated by PyTorch, and 3.78 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[graphsaint seed=1]:  72%|█████████████████████████████████████████████████████████████████████▎                          | 13/18 [22:13<20:53, 250.63s/run]
+============================================================
+GraphSAINT Baseline (seed=1, params=165,417)
+============================================================
+[2D] GraphSAINT RandomWalk sampler (budget=6000, walk_length=2, num_steps=30, coverage=100)
+  ✗ graphsaint seed=1 FAILED:
+[graphsaint seed=1]:  72%|█████████████████████████████████████████████████████████████████████▎                          | 13/18 [22:13<20:53, 250.63s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 213, in run_graphsaint_baseline
+    saint_loader = get_saint_loader(
+  File "/home/shashank/GNN/reddit/reddit_gnn/data/loaders.py", line 136, in get_saint_loader
+    return GraphSAINTRandomWalkSampler(walk_length=walk_length, **common)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/graph_saint.py", line 210, in __init__
+    super().__init__(data, batch_size, num_steps, sample_coverage,
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/graph_saint.py", line 57, in __init__
+    assert not data.edge_index.is_cuda
+AssertionError
+[graphsaint seed=2]:  78%|██████████████████████████████████████████████████████████████████████████▋                     | 14/18 [22:13<16:42, 250.63s/run]
+============================================================
+GraphSAINT Baseline (seed=2, params=165,417)
+============================================================
+[2D] GraphSAINT RandomWalk sampler (budget=6000, walk_length=2, num_steps=30, coverage=100)
+  ✗ graphsaint seed=2 FAILED:
+[graphsaint seed=2]:  78%|██████████████████████████████████████████████████████████████████████████▋                     | 14/18 [22:13<16:42, 250.63s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 213, in run_graphsaint_baseline
+    saint_loader = get_saint_loader(
+  File "/home/shashank/GNN/reddit/reddit_gnn/data/loaders.py", line 136, in get_saint_loader
+    return GraphSAINTRandomWalkSampler(walk_length=walk_length, **common)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/graph_saint.py", line 210, in __init__
+    super().__init__(data, batch_size, num_steps, sample_coverage,
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/graph_saint.py", line 57, in __init__
+    assert not data.edge_index.is_cuda
+AssertionError
+[cluster_gcn seed=0]:  83%|███████████████████████████████████████████████████████████████████████████████▏               | 15/18 [22:13<12:31, 250.63s/run]
+============================================================
+ClusterGCN Baseline (seed=0, params=165,417)
+============================================================
+  Partitioning into 1500 clusters (cache: /home/shashank/GNN/reddit/reddit_gnn/data_store/preprocessed/cluster/parts_1500)...
+/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/cluster.py:81: UserWarning: Weights only load failed. Please file an issue to make `torch.load(weights_only=True)` compatible in your case. Please use `torch.serialization.add_safe_globals([Partition])` to allowlist this global.
+  self.partition = fs.torch_load(path)
+  WARNING: cache at /home/shashank/GNN/reddit/reddit_gnn/data_store/preprocessed/cluster/parts_1500 is corrupted (Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu! (when checking argument for argument index in method wrapper_CUDA__index_select)). Deleting and re-partitioning...
+Computing METIS partitioning...
+Done!
+  Done in 279.3s
+[ClusterGCN] Training:   0%|                                                                                                      | 0/50 [00:00<?, ?epoch/s]
+  ✗ cluster_gcn seed=0 FAILED: Caught RuntimeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/cluster.py", line 274, in _collate
+    node_start = self.cluster_data.partition.partptr[batch]
+RuntimeError: CUDA error: initialization error
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+[cluster_gcn seed=0]:  83%|███████████████████████████████████████████████████████████████████████████████▏               | 15/18 [26:53<12:31, 250.63s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 258, in run_cluster_gcn_baseline
+    history = train_cluster_gcn(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_cluster.py", line 110, in train_cluster_gcn
+    for batch in batch_bar:
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1465, in _next_data
+    return self._process_data(data)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1491, in _process_data
+    data.reraise()
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/_utils.py", line 715, in reraise
+    raise exception
+RuntimeError: Caught RuntimeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/cluster.py", line 274, in _collate
+    node_start = self.cluster_data.partition.partptr[batch]
+RuntimeError: CUDA error: initialization error
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+[cluster_gcn seed=1]:  89%|████████████████████████████████████████████████████████████████████████████████████▍          | 16/18 [26:53<05:23, 161.74s/run]
+============================================================
+ClusterGCN Baseline (seed=1, params=165,417)
+============================================================
+  Partitioning into 1500 clusters (cache: /home/shashank/GNN/reddit/reddit_gnn/data_store/preprocessed/cluster/parts_1500)...
+  Done in 3.5s
+[ClusterGCN] Training:   0%|                                                                                                      | 0/50 [00:00<?, ?epoch/s]
+  ✗ cluster_gcn seed=1 FAILED: Caught RuntimeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/cluster.py", line 274, in _collate
+    node_start = self.cluster_data.partition.partptr[batch]
+RuntimeError: CUDA error: initialization error
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+[cluster_gcn seed=1]:  89%|████████████████████████████████████████████████████████████████████████████████████▍          | 16/18 [26:57<05:23, 161.74s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 258, in run_cluster_gcn_baseline
+    history = train_cluster_gcn(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_cluster.py", line 110, in train_cluster_gcn
+    for batch in batch_bar:
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1465, in _next_data
+    return self._process_data(data)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1491, in _process_data
+    data.reraise()
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/_utils.py", line 715, in reraise
+    raise exception
+RuntimeError: Caught RuntimeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/cluster.py", line 274, in _collate
+    node_start = self.cluster_data.partition.partptr[batch]
+RuntimeError: CUDA error: initialization error
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+[cluster_gcn seed=2]:  94%|█████████████████████████████████████████████████████████████████████████████████████████▋     | 17/18 [26:57<02:08, 128.31s/run]
+============================================================
+ClusterGCN Baseline (seed=2, params=165,417)
+============================================================
+  Partitioning into 1500 clusters (cache: /home/shashank/GNN/reddit/reddit_gnn/data_store/preprocessed/cluster/parts_1500)...
+  Done in 3.0s
+[ClusterGCN] Training:   0%|                                                                                                      | 0/50 [00:00<?, ?epoch/s]
+  ✗ cluster_gcn seed=2 FAILED: Caught RuntimeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/cluster.py", line 274, in _collate
+    node_start = self.cluster_data.partition.partptr[batch]
+RuntimeError: CUDA error: initialization error
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+[cluster_gcn seed=2]:  94%|█████████████████████████████████████████████████████████████████████████████████████████▋     | 17/18 [27:21<02:08, 128.31s/run]Traceback (most recent call last):
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 313, in main
+    _, metrics, _ = runner(data, seed)
+  File "/home/shashank/GNN/reddit/reddit_gnn/scripts/run_all_baselines.py", line 258, in run_cluster_gcn_baseline
+    history = train_cluster_gcn(
+  File "/home/shashank/GNN/reddit/reddit_gnn/training/train_cluster.py", line 110, in train_cluster_gcn
+    for batch in batch_bar:
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1465, in _next_data
+    return self._process_data(data)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1491, in _process_data
+    data.reraise()
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/_utils.py", line 715, in reraise
+    raise exception
+RuntimeError: Caught RuntimeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/home/shashank/miniconda3/envs/gnn/lib/python3.10/site-packages/torch_geometric/loader/cluster.py", line 274, in _collate
+    node_start = self.cluster_data.partition.partptr[batch]
+RuntimeError: CUDA error: initialization error
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+[cluster_gcn seed=2]: 100%|████████████████████████████████████████████████████████████████████████████████████████████████| 18/18 [27:21<00:00, 91.19s/run]
+
+============================================================
+BASELINE SUMMARY
+============================================================
+  sgc            : acc=0.9189 ± 0.0083, F1_macro=0.8658
+(gnn) shashank@ubuntu-Standard-PC-Q35-ICH9-2009:~/GNN/reddit$

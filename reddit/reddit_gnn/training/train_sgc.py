@@ -5,13 +5,14 @@ Logistic regression on precomputed X_K features.
 """
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
 import time
 import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+
+from tqdm import tqdm
 from reddit_gnn.config import SGC_DIR, NUM_CLASSES, DEVICE
 from reddit_gnn.training.utils import (
     EarlyStopping,
@@ -53,7 +54,7 @@ def train_sgc(
     val_mask = data.val_mask.to(device)
 
     if verbose:
-        print(f"  [SGC K={K}] Loaded features: {feature_path} → {X_K.shape}")
+        tqdm.write(f"  [SGC K={K}] Loaded features: {feature_path} → {X_K.shape}")
 
     # Simple logistic regression classifier
     from reddit_gnn.models.sgc import SGC
@@ -65,7 +66,16 @@ def train_sgc(
     history = []
     best_val_acc = 0.0
 
-    for epoch in range(max_epochs):
+    # ── Epoch bar (SGC is full-batch, so no inner bar needed) ────────────────
+    epoch_bar = tqdm(
+        range(max_epochs),
+        desc=f"[SGC K={K}] Training",
+        unit="epoch",
+        dynamic_ncols=True,
+        disable=not verbose,
+    )
+
+    for epoch in epoch_bar:
         reset_gpu_memory(device)
         t0 = time.time()
 
@@ -95,24 +105,27 @@ def train_sgc(
         )
         history.append(entry)
 
-        if verbose and epoch % 10 == 0:
-            print(
-                f"  [SGC K={K}] Epoch {epoch:3d} | "
-                f"Train loss: {train_loss:.4f} acc: {train_acc:.4f} | "
-                f"Val loss: {val_loss:.4f} acc: {val_acc:.4f} | "
-                f"Time: {epoch_time*1000:.1f}ms"
-            )
-
         if val_acc > best_val_acc:
             best_val_acc = val_acc
 
+        # Update bar every epoch (SGC is fast)
+        epoch_bar.set_postfix(
+            tr_loss=f"{train_loss:.4f}",
+            tr_acc=f"{train_acc:.4f}",
+            val_loss=f"{val_loss:.4f}",
+            val_acc=f"{val_acc:.4f}",
+            best=f"{best_val_acc:.4f}",
+            t=f"{epoch_time*1000:.0f}ms",
+        )
+
         if early_stop.step(val_loss, model):
-            if verbose:
-                print(f"  Early stopping at epoch {epoch}")
+            epoch_bar.write(f"  [SGC K={K}] Early stopping at epoch {epoch}")
             break
 
+    epoch_bar.close()
     early_stop.restore_best(model)
+
     if verbose:
-        print(f"  Best val acc: {best_val_acc:.4f}")
+        tqdm.write(f"  [SGC K={K}] Best val acc: {best_val_acc:.4f}")
 
     return model, history

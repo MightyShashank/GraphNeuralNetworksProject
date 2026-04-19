@@ -9,12 +9,12 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from reddit_gnn.config import PREPROCESSED
+from reddit_gnn.config import PREPROCESSED # We are going to save the normalised dataset here
 
 
 def inspect_features(data) -> dict:
     """Log raw feature statistics before normalization."""
-    x = data.x
+    x = data.x # Our node feature matrix
     stats = {
         "min": x.min().item(),
         "max": x.max().item(),
@@ -37,7 +37,7 @@ def normalize_features(data, save_path: str = None) -> "torch_geometric.data.Dat
         save_path = os.path.join(PREPROCESSED, "reddit_normalized.pt")
 
     x = data.x  # [232965, 602]
-    train_x = x[data.train_mask]
+    train_x = x[data.train_mask] # boolean indexing (we only want to train on the training nodes)
 
     # Fit statistics on training nodes only
     mean = train_x.mean(dim=0, keepdim=True)   # [1, 602]

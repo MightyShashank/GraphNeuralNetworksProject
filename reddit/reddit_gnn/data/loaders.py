@@ -13,7 +13,7 @@ from reddit_gnn.config import SAINT_DIR
 # ─── Stage 2C: NeighborLoader (GraphSAGE, GAT, GATv2) ──────────────────────
 
 
-def get_train_loader(data, num_neighbors, batch_size, num_workers=4):
+def get_train_loader(data, num_neighbors, batch_size, num_workers=0):
     """
     Training loader with bounded neighborhood sampling.
 
@@ -33,7 +33,7 @@ def get_train_loader(data, num_neighbors, batch_size, num_workers=4):
     )
 
 
-def get_inference_loader(data, batch_size=512, num_layers=2, num_workers=4):
+def get_inference_loader(data, batch_size=512, num_layers=2, num_workers=0):
     """
     Full-neighborhood inference loader — no sampling limit.
     Required for deterministic evaluation and embedding extraction.
@@ -53,16 +53,19 @@ def get_inference_loader(data, batch_size=512, num_layers=2, num_workers=4):
     )
 
 
-def get_val_loader(data, num_layers=2, batch_size=512, num_workers=4):
+def get_val_loader(data, num_layers=2, batch_size=1024, num_workers=0, num_neighbors=None):
     """
     Validation/test loader — full neighborhood for accurate evaluation.
     Only processes val_mask nodes as roots.
     """
     from torch_geometric.loader import NeighborLoader
 
+    if num_neighbors is None:
+        num_neighbors = [-1] * num_layers
+
     return NeighborLoader(
         data,
-        num_neighbors=[-1] * num_layers,
+        num_neighbors=num_neighbors,
         batch_size=batch_size,
         input_nodes=data.val_mask,
         shuffle=False,
@@ -70,15 +73,18 @@ def get_val_loader(data, num_layers=2, batch_size=512, num_workers=4):
     )
 
 
-def get_test_loader(data, num_layers=2, batch_size=512, num_workers=4):
+def get_test_loader(data, num_layers=2, batch_size=1024, num_workers=0, num_neighbors=None):
     """
     Test loader — full neighborhood, test mask as roots.
     """
     from torch_geometric.loader import NeighborLoader
 
+    if num_neighbors is None:
+        num_neighbors = [-1] * num_layers
+
     return NeighborLoader(
         data,
-        num_neighbors=[-1] * num_layers,
+        num_neighbors=num_neighbors,
         batch_size=batch_size,
         input_nodes=data.test_mask,
         shuffle=False,
@@ -97,7 +103,7 @@ def get_saint_loader(
     num_steps=30,
     sample_coverage=100,
     save_dir=None,
-    num_workers=4,
+    num_workers=0,
 ):
     """
     Create a GraphSAINT sampler.
@@ -149,7 +155,7 @@ def get_saint_loader(
 # ─── ClusterLoader ──────────────────────────────────────────────────────────
 
 
-def get_cluster_loader(cluster_data, clusters_per_batch=20, num_workers=4, shuffle=True):
+def get_cluster_loader(cluster_data, clusters_per_batch=20, num_workers=0, shuffle=True):
     """Create a ClusterLoader from precomputed ClusterData."""
     from torch_geometric.loader import ClusterLoader
 

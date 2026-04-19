@@ -3,6 +3,7 @@ Stage 2B — ClusterGCN METIS Partitioning.
 Partitions graph into clusters, caches results, analyzes partition quality.
 """
 
+import shutil
 import torch
 import os
 import sys
@@ -28,12 +29,28 @@ def prepare_cluster_gcn(data, num_parts, cache_dir=None):
     print(f"  Partitioning into {num_parts} clusters (cache: {cache_dir})...")
     t0 = time.time()
 
-    cluster_data = ClusterData(
-        data,
-        num_parts=num_parts,
-        recursive=False,  # standard METIS (not recursive bisection)
-        save_dir=cache_dir,
-    )
+    try:
+        cluster_data = ClusterData(
+            data,
+            num_parts=num_parts,
+            recursive=False,  # standard METIS (not recursive bisection)
+            save_dir=cache_dir,
+        )
+    except RuntimeError as exc:
+        # Corrupted cache (e.g. truncated zip from an interrupted previous run).
+        # Wipe and re-partition from scratch.
+        print(
+            f"  WARNING: cache at {cache_dir} is corrupted ({exc}). "
+            f"Deleting and re-partitioning..."
+        )
+        shutil.rmtree(cache_dir, ignore_errors=True)
+        os.makedirs(cache_dir, exist_ok=True)
+        cluster_data = ClusterData(
+            data,
+            num_parts=num_parts,
+            recursive=False,
+            save_dir=cache_dir,
+        )
 
     elapsed = time.time() - t0
     print(f"  Done in {elapsed:.1f}s")
@@ -41,17 +58,37 @@ def prepare_cluster_gcn(data, num_parts, cache_dir=None):
     return cluster_data
 
 
+def _get_perm_and_partptr(cluster_data):
+    """
+    Compatibility shim for PyG's ClusterData partition API.
+
+    PyG >= 2.5: perm/partptr stored in cluster_data.partition namedtuple
+                  as partition.node_perm / partition.partptr.
+    PyG <  2.5: exposed directly as cluster_data.perm / cluster_data.partptr.
+    """
+    # New API (PyG >= 2.5 / 2.7): Partition namedtuple
+    if hasattr(cluster_data, "partition"):
+        return cluster_data.partition.node_perm, cluster_data.partition.partptr
+    # Old API (PyG < 2.5): direct attributes
+    if hasattr(cluster_data, "perm"):
+        return cluster_data.perm, cluster_data.partptr
+    raise AttributeError(
+        "Cannot locate perm/partptr on ClusterData. "
+        f"Available attrs: {[a for a in dir(cluster_data) if not a.startswith('__')]}"
+    )
+
+
 def analyze_partition_quality(cluster_data, data, num_parts):
     """
     Compute edge retention rate — fraction of edges falling WITHIN clusters.
     This is the key quality metric from Chiang et al. (2019).
     """
-    perm = cluster_data.perm
+    perm, partptr = _get_perm_and_partptr(cluster_data)
     partition_id = torch.zeros(data.num_nodes, dtype=torch.long)
 
-    for i in range(len(cluster_data.partptr) - 1):
-        start = cluster_data.partptr[i]
-        end = cluster_data.partptr[i + 1]
+    for i in range(len(partptr) - 1):
+        start = partptr[i]
+        end = partptr[i + 1]
         partition_id[perm[start:end]] = i
 
     row, col = data.edge_index
@@ -60,8 +97,8 @@ def analyze_partition_quality(cluster_data, data, num_parts):
 
     # Compute cluster size statistics
     cluster_sizes = []
-    for i in range(len(cluster_data.partptr) - 1):
-        size = cluster_data.partptr[i + 1] - cluster_data.partptr[i]
+    for i in range(len(partptr) - 1):
+        size = (partptr[i + 1] - partptr[i]).item()
         cluster_sizes.append(size)
 
     sizes_tensor = torch.tensor(cluster_sizes, dtype=torch.float)

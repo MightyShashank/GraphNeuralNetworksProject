@@ -10,6 +10,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from reddit_gnn.config import PREPROCESSED
 
 
+# Checks whether every node belongs to exactly one split. Its a disgnostic check.
+# For each split it counts how many nodes belong to each class, prints min, max class counts and also prints imbalance ratio.
+
 def validate_masks(data):
     """
     Step 1C — Confirm masks are non-overlapping and cover all nodes.

@@ -22,11 +22,12 @@ PRIORITY_ONLY=false
 MODEL_FILTER=""
 
 # ── Parse args ────────────────────────────────────────────────
-for arg in "$@"; do
-  case $arg in
-    --priority-only) PRIORITY_ONLY=true ;;
-    --model) shift; MODEL_FILTER="$1" ;;
-    --seeds) shift; SEEDS="$1" ;;
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --priority-only) PRIORITY_ONLY=true; shift ;;
+    --model)         MODEL_FILTER="$2"; shift 2 ;;
+    --seeds)         SEEDS="$2"; shift 2 ;;
+    *) echo "Unknown argument: $1"; shift ;;
   esac
 done
 

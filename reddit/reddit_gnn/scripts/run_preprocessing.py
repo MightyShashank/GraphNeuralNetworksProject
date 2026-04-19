@@ -24,15 +24,23 @@ def main():
     print("=" * 60)
 
     # Step 1A: Download (just downloaind our reddit dataset)
+    print("\n" + "=" * 60)
+    print("STEP 1A: Downloading Reddit Dataset")
     from reddit_gnn.data.download import download_reddit
     data, dataset = download_reddit()
+    print("=" * 60)
 
     # Step 1B: Normalize (Z-score normalization)
+    print("\n" + "=" * 60)
+    print("STEP 1B: Normalizing Reddit Dataset")
     from reddit_gnn.data.normalize import inspect_features, normalize_features
-    inspect_features(data)
-    data = normalize_features(data)
+    inspect_features(data) # Just logging raw statistics
+    data = normalize_features(data) 
+    print("=" * 60)
 
     # Step 1C + 1D: Inspect (just checking our data)
+    print("\n" + "=" * 60)
+    print("STEP 1C + 1D: Inspecting Reddit Dataset")
     from reddit_gnn.data.inspect_graph import validate_masks, inspect_graph
     validate_masks(data)
     inspect_graph(data)

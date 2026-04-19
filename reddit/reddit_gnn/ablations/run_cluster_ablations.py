@@ -9,6 +9,7 @@ import os
 import argparse
 import torch
 import numpy as np
+from typing import Any, Dict
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
@@ -21,7 +22,7 @@ from reddit_gnn.training.utils import save_checkpoint, count_parameters
 from reddit_gnn.evaluation.metrics import get_test_predictions, compute_all_metrics, aggregate_seeds
 from reddit_gnn.evaluation.serialize import save_run_results
 
-ABLATION_CONFIGS = {
+ABLATION_CONFIGS: Dict[str, Dict[str, Any]] = {
     # F1 — Number of Clusters
     "F1": {
         "name": "Number of Clusters",
@@ -88,9 +89,9 @@ def run_single_variant(data, ablation_id, variant_name, variant_overrides, seeds
 
         model = ClusterGCN(
             in_channels=NUM_FEATURES,
-            hidden_channels=hp["hidden"],
+            hidden_channels=int(hp["hidden"]),
             out_channels=NUM_CLASSES,
-            num_layers=hp["layers"],
+            num_layers=int(hp["layers"]),
             dropout=hp["dropout"],
         ).to(DEVICE)
 

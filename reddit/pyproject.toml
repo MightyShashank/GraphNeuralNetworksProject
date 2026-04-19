@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "reddit_gnn"
+version = "0.1.0"
+description = "GNN Node Classification on Reddit Dataset"
+requires-python = ">=3.9"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["reddit_gnn*"]
+
+[tool.pytest.ini_options]
+testpaths = ["reddit_gnn/tests"]
+pythonpath = ["."]
+
+[tool.pyrefly]
+python_interpreter = "/home/shashank/miniconda3/envs/gnn/bin/python"

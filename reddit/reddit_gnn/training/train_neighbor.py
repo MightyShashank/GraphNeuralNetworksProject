@@ -15,6 +15,8 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+
+from tqdm import tqdm
 from reddit_gnn.training.utils import (
     EarlyStopping,
     get_scheduler,
@@ -89,7 +91,16 @@ def train_neighbor_sampled(
     history = []
     best_val_acc = 0.0
 
-    for epoch in range(max_epochs):
+    # ── Outer epoch bar ──────────────────────────────────────────────────────
+    epoch_bar = tqdm(
+        range(max_epochs),
+        desc=f"[{model_name}] Training",
+        unit="epoch",
+        dynamic_ncols=True,
+        disable=not verbose,
+    )
+
+    for epoch in epoch_bar:
         # ── Training phase ──
         model.train()
         total_loss = 0.0
@@ -99,7 +110,17 @@ def train_neighbor_sampled(
 
         t0 = time.time()
 
-        for batch in train_loader:
+        # ── Inner batch bar ──
+        batch_bar = tqdm(
+            train_loader,
+            desc=f"  Epoch {epoch:3d} batches",
+            unit="batch",
+            leave=False,
+            dynamic_ncols=True,
+            disable=not verbose,
+        )
+
+        for batch in batch_bar:
             batch = batch.to(device)
             optimizer.zero_grad()
 
@@ -115,6 +136,12 @@ def train_neighbor_sampled(
             total_loss += loss.item()
             total_correct += (out[:bs].argmax(dim=1) == batch.y[:bs]).sum().item()
             total_nodes += bs
+
+            # Live running stats on the batch bar
+            running_acc = total_correct / max(total_nodes, 1)
+            batch_bar.set_postfix(loss=f"{loss.item():.4f}", acc=f"{running_acc:.4f}")
+
+        batch_bar.close()
 
         epoch_time = time.time() - t0
         train_loss = total_loss / max(total_nodes / batch.batch_size, 1)
@@ -135,28 +162,31 @@ def train_neighbor_sampled(
         )
         history.append(entry)
 
-        if verbose:
-            print(
-                f"  [{model_name}] Epoch {epoch:3d} | "
-                f"Train loss: {train_loss:.4f} acc: {train_acc:.4f} | "
-                f"Val loss: {val_loss:.4f} acc: {val_acc:.4f} | "
-                f"Time: {epoch_time:.1f}s | VRAM: {gpu_mem:.0f}MB | "
-                f"LR: {current_lr:.6f}"
-            )
-
         if val_acc > best_val_acc:
             best_val_acc = val_acc
 
+        # Update epoch bar with summary stats
+        epoch_bar.set_postfix(
+            tr_loss=f"{train_loss:.4f}",
+            tr_acc=f"{train_acc:.4f}",
+            val_loss=f"{val_loss:.4f}",
+            val_acc=f"{val_acc:.4f}",
+            best=f"{best_val_acc:.4f}",
+            vram=f"{gpu_mem:.0f}MB",
+            lr=f"{current_lr:.2e}",
+        )
+
         # Early stopping
         if early_stop.step(val_loss, model):
-            if verbose:
-                print(f"  Early stopping at epoch {epoch} (patience={patience})")
+            epoch_bar.write(f"  [{model_name}] Early stopping at epoch {epoch} (patience={patience})")
             break
+
+    epoch_bar.close()
 
     # Restore best model
     early_stop.restore_best(model)
 
     if verbose:
-        print(f"  Best val acc: {best_val_acc:.4f}")
+        tqdm.write(f"  [{model_name}] Best val acc: {best_val_acc:.4f}")
 
     return history

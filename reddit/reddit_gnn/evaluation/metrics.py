@@ -14,21 +14,71 @@ from sklearn.metrics import (
 
 
 @torch.no_grad()
-def get_test_predictions(model, data, device, model_type="default"):
-    """Get predictions on the full test set."""
+def get_test_predictions(model, data_or_loader, device, model_type="default", sparse_eval=False):
+    """
+    Get predictions on the test set.
+
+    Args:
+        model_type: "sgc" for precomputed-feature models.
+        sparse_eval: True for GCNConv-based models (GraphSAINT, ClusterGCN).
+                     Uses SparseTensor SPMM to avoid the 116 GB OOM that
+                     occurs with dense full-graph or NeighborLoader inference.
+                     False (default) for SAGEConv/GATConv — safe with bounded
+                     NeighborLoader because mean/sum aggregation isn't affected
+                     by global degree unlike GCNConv's D^{-1/2} A D^{-1/2}.
+    """
     model.eval()
 
+    # ── SGC ────────────────────────────────────────────────────────────────────
     if model_type == "sgc":
-        # SGC: direct forward on precomputed features
+        data = data_or_loader
         out = model(data.x.to(device))
-    else:
-        data_dev = data.to(device)
-        out = model(data_dev.x, data_dev.edge_index)
+        preds = out[data.test_mask].argmax(dim=1).cpu().numpy()
+        labels = data.y[data.test_mask].cpu().numpy()
+        return preds, labels
 
-    test_mask = data.test_mask
-    preds = out[test_mask].argmax(dim=1).cpu().numpy()
-    labels = data.y[test_mask].cpu().numpy()
-    return preds, labels
+    # ── GCNConv models: SparseTensor SPMM (GraphSAINT, ClusterGCN) ────────────
+    if sparse_eval:
+        from torch_sparse import SparseTensor
+        data = data_or_loader
+        model.to("cpu")
+        try:
+            N = data.num_nodes
+            src, dst = data.edge_index[0].cpu(), data.edge_index[1].cpu()
+            adj_t = SparseTensor(row=dst, col=src, sparse_sizes=(N, N))
+            out = model(data.x.cpu(), adj_t)
+            preds = out[data.test_mask.cpu()].argmax(1).numpy()
+            labels = data.y[data.test_mask].cpu().numpy()
+        finally:
+            model.to(device)
+        return preds, labels
+
+    # ── SAGEConv / GATConv: bounded NeighborLoader ─────────────────────────────
+    from torch_geometric.data import Data
+    from torch_geometric.loader import NeighborLoader
+
+    if isinstance(data_or_loader, Data):
+        loader = NeighborLoader(
+            data_or_loader,
+            num_neighbors=[25, 10],
+            batch_size=1024,
+            input_nodes=data_or_loader.test_mask,
+            shuffle=False,
+            num_workers=0,
+        )
+    else:
+        loader = data_or_loader
+
+    all_preds, all_labels = [], []
+    for batch in loader:
+        batch = batch.to(device)
+        out = model(batch.x, batch.edge_index)
+        bs = batch.batch_size
+        all_preds.append(out[:bs].argmax(dim=1).cpu())
+        all_labels.append(batch.y[:bs].cpu())
+
+    return torch.cat(all_preds).numpy(), torch.cat(all_labels).numpy()
+
 
 
 def compute_all_metrics(preds, labels, model_name="", run_id=""):

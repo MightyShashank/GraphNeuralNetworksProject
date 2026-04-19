@@ -63,7 +63,13 @@ reddit_gnn/
 │
 ├── scripts/                               # Top-level runner scripts
 │   ├── run_preprocessing.py               # Full preprocessing pipeline
-│   └── run_all_baselines.py               # Train all 6 models × 3 seeds
+│   ├── run_all_baselines.py               # Train all 6 models × 3 seeds
+│   ├── run_sgc.py                         # SGC only
+│   ├── run_graphsage.py                   # GraphSAGE only
+│   ├── run_gat.py                         # GAT only
+│   ├── run_gatv2.py                       # GATv2 only
+│   ├── run_graphsaint.py                  # GraphSAINT only
+│   └── run_cluster_gcn.py                 # ClusterGCN only
 │
 ├── notebooks/                             # Analysis notebooks (runnable as scripts)
 │   ├── 01_baseline_results.py             # Accuracy comparison, training curves
@@ -93,19 +99,37 @@ reddit_gnn/
 conda create -n gnn python=3.10 -y
 conda activate gnn
 
-# Install PyTorch with CUDA (adjust CUDA version to your system - my system RTX A4500 uses Cuda 12.4 so i'll use cu121) - GPU enabled pytorch
+# Install PyTorch with CUDA (RTX A4500 system uses CUDA 12.1)
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-# Install PyG and extensions
+# Install PyG core (pure Python, no ABI concerns)
 pip install torch-geometric
-pip install torch-sparse torch-scatter pyg-lib -f https://data.pyg.org/whl/torch-2.1.0+cu121.html
+```
 
-# Install remaining dependencies
+> ⚠️ **Critical — ABI Pinning:** `torch-scatter`, `torch-sparse`, and `pyg-lib` are
+> compiled C++ binaries that **must exactly match your installed PyTorch version**.
+> Using the wrong wheel silently installs but crashes at import with
+> `OSError: undefined symbol`. Always use the matching wheel index below.
+
+```bash
+# Install PyG C++ extensions — wheel must match PyTorch + CUDA version exactly.
+# Current pin: PyTorch 2.4.x + CUDA 12.1  →  torch-2.4.0+cu121
+pip install torch-scatter torch-sparse pyg-lib \
+    -f https://data.pyg.org/whl/torch-2.4.0+cu121.html
+
+# If you ever upgrade PyTorch, re-run the command above substituting:
+#   torch-2.4.0+cu121  →  torch-<NEW_VER>+cu<CUDA_VER>
+# e.g. for PyTorch 2.5.0 + CUDA 12.1: torch-2.5.0+cu121
+
+# Install remaining Python dependencies
 cd reddit_gnn/
 pip install -r requirements.txt
 
-# Verify GPU
-python -c "import torch; print(f'CUDA: {torch.cuda.is_available()}, Device: {torch.cuda.get_device_name(0)}')"
+# ── Verification (run all 3; any import error means ABI mismatch) ──
+python -c "import torch; print('PyTorch:', torch.__version__, '| CUDA:', torch.version.cuda)"
+python -c "from torch_sparse import SparseTensor; print('torch_sparse: OK')"
+python -c "from torch_scatter import scatter; print('torch_scatter: OK')"
+python -c "import torch; print(f'GPU: {torch.cuda.get_device_name(0)}')"
 ```
 
 ### Step 1: Preprocessing (Run Once)
@@ -125,20 +149,53 @@ python -m reddit_gnn.scripts.run_preprocessing
 **Expected output:** ~3.5GB in `reddit_gnn/data_store/`  
 **Expected time:** ~15–30 minutes (METIS partitioning is the bottleneck)
 
-### Step 2: Baseline Training (6 Models × 3 Seeds = 18 Runs)
+### Step 2: Baseline Training
+
+#### Option A — Train ALL 6 models at once (18 runs total: 6 models × 3 seeds)
 
 ```bash
 python -m reddit_gnn.scripts.run_all_baselines
 ```
 
-**What it does:**
-- Trains all 6 models (SGC → GraphSAGE → GAT → GATv2 → GraphSAINT → ClusterGCN)
-- Each model trained with 3 seeds (0, 1, 2) for statistical significance
-- Saves checkpoints, training history, and test metrics per run
-- Prints final accuracy summary table
+#### Option B — Train each model individually (recommended if resuming after a crash)
+
+Each script trains only its model with 3 seeds by default. You can also pass
+`--seeds 0` to run only a single seed (e.g., to re-run just the failed one).
+
+```bash
+# SGC  (~30 seconds total, already done)
+python -m reddit_gnn.scripts.run_sgc
+python -m reddit_gnn.scripts.run_sgc --seeds 0          # single seed
+
+# GraphSAGE  (~45 min)
+python -m reddit_gnn.scripts.run_graphsage
+python -m reddit_gnn.scripts.run_graphsage --seeds 0    # single seed
+
+# GAT  (~90 min)
+python -m reddit_gnn.scripts.run_gat
+python -m reddit_gnn.scripts.run_gat --seeds 1 2        # seeds 1 and 2 only
+
+# GATv2  (~90 min)
+python -m reddit_gnn.scripts.run_gatv2
+python -m reddit_gnn.scripts.run_gatv2 --seeds 0
+
+# GraphSAINT  (~60 min)
+# Validation runs on CPU full-graph to correctly apply val_mask.
+python -m reddit_gnn.scripts.run_graphsaint
+python -m reddit_gnn.scripts.run_graphsaint --seeds 0
+
+# ClusterGCN  (~30 min + ~5 min METIS cache)
+# Validation runs on CPU full-graph to correctly apply val_mask.
+python -m reddit_gnn.scripts.run_cluster_gcn
+python -m reddit_gnn.scripts.run_cluster_gcn --seeds 0
+```
+
+> **Tip — Resuming after a crash:** If only one model failed (e.g. GraphSAINT),
+> just run its individual script. Results from previously completed models are
+> already saved in `results/` and do not need to be re-run.
 
 **Expected output:** Checkpoints + metrics in `reddit_gnn/results/`  
-**Expected time:** ~7–8 hours total on RTX A4500  
+**Expected time (per model):** SGC ~30s · GraphSAGE ~45min · GAT/GATv2 ~90min · GraphSAINT ~60min · ClusterGCN ~30min  
 **Verification gate:** All 6 models must achieve >93% test accuracy
 
 ---

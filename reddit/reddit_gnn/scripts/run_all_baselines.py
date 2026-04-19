@@ -7,6 +7,7 @@ Run: python scripts/run_all_baselines.py
 import sys
 import os
 import torch
+from tqdm import tqdm
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
@@ -48,8 +49,11 @@ def run_graphsage_baseline(data, seed):
 
     optimizer = torch.optim.Adam(model.parameters(), lr=hp["lr"], weight_decay=hp["weight_decay"])
     train_loader = get_train_loader(data, hp["num_neighbors"], hp["batch_size"])
-    val_loader = get_val_loader(data, num_layers=hp["layers"])
+    val_loader = get_val_loader(data, num_layers=hp["layers"], num_neighbors=hp["num_neighbors"], batch_size=1024)
 
+    # --- TRAINING HAPPENS HERE ---
+    # This function handles the entire PyTorch training loop for GraphSAGE:
+    # forward passes, calculating loss, backpropagation, and early stopping.
     history = train_neighbor_sampled(
         model, train_loader, val_loader, optimizer, DEVICE,
         max_epochs=hp["max_epochs"], patience=hp["patience"],
@@ -124,7 +128,7 @@ def run_gat_baseline(data, seed):
 
     optimizer = torch.optim.Adam(model.parameters(), lr=hp["lr"], weight_decay=hp["weight_decay"])
     train_loader = get_train_loader(data, hp["num_neighbors"], hp["batch_size"])
-    val_loader = get_val_loader(data, num_layers=hp["layers"])
+    val_loader = get_val_loader(data, num_layers=hp["layers"], num_neighbors=hp["num_neighbors"], batch_size=1024)
 
     history = train_neighbor_sampled(
         model, train_loader, val_loader, optimizer, DEVICE,
@@ -166,7 +170,7 @@ def run_gatv2_baseline(data, seed):
 
     optimizer = torch.optim.Adam(model.parameters(), lr=hp["lr"], weight_decay=hp["weight_decay"])
     train_loader = get_train_loader(data, hp["num_neighbors"], hp["batch_size"])
-    val_loader = get_val_loader(data, num_layers=hp["layers"])
+    val_loader = get_val_loader(data, num_layers=hp["layers"], num_neighbors=hp["num_neighbors"], batch_size=1024)
 
     history = train_neighbor_sampled(
         model, train_loader, val_loader, optimizer, DEVICE,
@@ -218,7 +222,7 @@ def run_graphsaint_baseline(data, seed):
         model_name="GraphSAINT",
     )
 
-    preds, labels = get_test_predictions(model, data, DEVICE)
+    preds, labels = get_test_predictions(model, data, DEVICE, sparse_eval=True)
     metrics = compute_all_metrics(preds, labels, "graphsaint", f"baseline_seed{seed}")
     print_classification_report(preds, labels, "GraphSAINT")
 
@@ -259,7 +263,7 @@ def run_cluster_gcn_baseline(data, seed):
         model_name="ClusterGCN",
     )
 
-    preds, labels = get_test_predictions(model, data, DEVICE)
+    preds, labels = get_test_predictions(model, data, DEVICE, sparse_eval=True)
     metrics = compute_all_metrics(preds, labels, "cluster_gcn", f"baseline_seed{seed}")
     print_classification_report(preds, labels, "ClusterGCN")
 
@@ -293,24 +297,39 @@ def main():
         ("cluster_gcn", run_cluster_gcn_baseline),
     ]
 
+    total_runs = len(runners) * len(SEEDS)
+    overall_bar = tqdm(
+        total=total_runs,
+        desc="Overall progress",
+        unit="run",
+        dynamic_ncols=True,
+    )
+
     for model_name, runner in runners:
         model_results = []
         for seed in SEEDS:
+            overall_bar.set_description(f"[{model_name} seed={seed}]")
             try:
                 _, metrics, _ = runner(data, seed)
                 model_results.append(metrics)
-                print(f"\n  ✓ {model_name} seed={seed}: acc={metrics['test_acc']:.4f}")
+                overall_bar.write(f"  ✓ {model_name} seed={seed}: acc={metrics['test_acc']:.4f}")
             except Exception as e:
-                print(f"\n  ✗ {model_name} seed={seed} FAILED: {e}")
+                overall_bar.write(f"  ✗ {model_name} seed={seed} FAILED: {e}")
                 import traceback
                 traceback.print_exc()
+            finally:
+                overall_bar.update(1)
 
         if model_results:
             from reddit_gnn.evaluation.metrics import aggregate_seeds
             agg = aggregate_seeds(model_results)
             all_results[model_name] = agg
-            print(f"\n  {model_name} AGGREGATE: "
-                  f"acc={agg.get('test_acc_mean',0):.4f} ± {agg.get('test_acc_std',0):.4f}")
+            overall_bar.write(
+                f"  {model_name} AGGREGATE: "
+                f"acc={agg.get('test_acc_mean',0):.4f} ± {agg.get('test_acc_std',0):.4f}"
+            )
+
+    overall_bar.close()
 
     # Final summary
     print("\n" + "=" * 60)

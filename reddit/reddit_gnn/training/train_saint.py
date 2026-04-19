@@ -11,6 +11,8 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+
+from tqdm import tqdm
 from reddit_gnn.training.utils import (
     EarlyStopping,
     get_scheduler,
@@ -24,19 +26,53 @@ from reddit_gnn.training.train_neighbor import evaluate_neighbor
 
 @torch.no_grad()
 def evaluate_saint(model, data, device):
-    """Full-graph evaluation for GraphSAINT (no sampling at eval time)."""
-    model.eval()
-    data_dev = data.to(device)
-    out = model(data_dev.x, data_dev.edge_index)
+    """
+    Full-graph evaluation via sparse matrix multiplication (SPMM).
 
-    # Validation
-    val_out = out[data.val_mask]
-    val_y = data_dev.y[data.val_mask]
-    val_loss = F.cross_entropy(val_out, val_y).item()
-    val_acc = (val_out.argmax(dim=1) == val_y).float().mean().item()
+    WHY SparseTensor instead of full-graph or NeighborLoader:
+    - Full-graph CPU/GPU: GCN message passing materializes [E, D] tensor.
+      114M edges × 256 hidden = 116 GB → OOM on both GPU and CPU.
+    - NeighborLoader with bounded [25,10]: wrong for GCNConv because degree
+      normalization D^{-1/2} is computed on the sampled subgraph, not the
+      full graph. With Reddit's avg degree ~492, sampling 25 gives ~18x
+      wrong normalization → garbage predictions (0.38 accuracy).
+    - SparseTensor SPMM: computes A_norm @ H without ever materializing
+      the [E, D] tensor. Peak RAM ~4 GB. Matches the original GraphSAINT
+      paper's full-graph evaluation exactly.
+
+    This is the standard approach per GraphSAINT paper + PyG documentation
+    for large graphs where dense full-graph inference is impossible.
+    """
+    from torch_sparse import SparseTensor
+
+    model.eval()
+    model.to("cpu")
+
+    try:
+        N = data.num_nodes
+        x = data.x.cpu()
+        # edge_index: shape [2, E], row=src, col=dst
+        src, dst = data.edge_index[0].cpu(), data.edge_index[1].cpu()
+
+        # Build adj_t in PyG's expected format: adj_t[dst, src] = edge src→dst
+        # GCNConv with SparseTensor calls gcn_norm() internally using sparse ops,
+        # computing D^{-1/2}(A+I)D^{-1/2} without materializing [E, D].
+        adj_t = SparseTensor(
+            row=dst,  # destination (target)
+            col=src,  # source
+            sparse_sizes=(N, N),
+        )
+
+        out = model(x, adj_t)  # GCNConv uses SPMM, not scatter/gather over edges
+
+        val_out = out[data.val_mask.cpu()]
+        val_y = data.y[data.val_mask].cpu()
+        val_loss = F.cross_entropy(val_out, val_y).item()
+        val_acc = (val_out.argmax(1) == val_y).float().mean().item()
+    finally:
+        model.to(device)  # always move back to GPU
 
     return val_acc, val_loss
-
 
 def train_saint(
     model,
@@ -70,7 +106,16 @@ def train_saint(
     history = []
     best_val_acc = 0.0
 
-    for epoch in range(max_epochs):
+    # ── Outer epoch bar ──────────────────────────────────────────────────────
+    epoch_bar = tqdm(
+        range(max_epochs),
+        desc=f"[{model_name}] Training",
+        unit="epoch",
+        dynamic_ncols=True,
+        disable=not verbose,
+    )
+
+    for epoch in epoch_bar:
         model.train()
         total_loss = 0.0
         n_batches = 0
@@ -78,7 +123,17 @@ def train_saint(
 
         t0 = time.time()
 
-        for batch in saint_loader:
+        # ── Inner batch bar ──
+        batch_bar = tqdm(
+            saint_loader,
+            desc=f"  Epoch {epoch:3d} batches",
+            unit="batch",
+            leave=False,
+            dynamic_ncols=True,
+            disable=not verbose,
+        )
+
+        for batch in batch_bar:
             batch = batch.to(device)
             optimizer.zero_grad()
 
@@ -106,11 +161,15 @@ def train_saint(
             total_loss += loss.item()
             n_batches += 1
 
+            batch_bar.set_postfix(loss=f"{loss.item():.4f}")
+
+        batch_bar.close()
+
         epoch_time = time.time() - t0
         train_loss = total_loss / max(n_batches, 1)
         gpu_mem = measure_gpu_memory(device)
 
-        # Validation (full graph)
+        # Validation on CPU (full graph with correct val_mask)
         val_acc, val_loss = evaluate_saint(model, data, device)
 
         # LR scheduling
@@ -120,24 +179,27 @@ def train_saint(
         entry = log_epoch(epoch, train_loss, val_loss, val_acc, epoch_time, gpu_mem, current_lr)
         history.append(entry)
 
-        if verbose:
-            print(
-                f"  [{model_name}] Epoch {epoch:3d} | "
-                f"Train loss: {train_loss:.4f} | "
-                f"Val loss: {val_loss:.4f} acc: {val_acc:.4f} | "
-                f"Time: {epoch_time:.1f}s | VRAM: {gpu_mem:.0f}MB"
-            )
-
         if val_acc > best_val_acc:
             best_val_acc = val_acc
 
+        # Update epoch bar
+        epoch_bar.set_postfix(
+            tr_loss=f"{train_loss:.4f}",
+            val_loss=f"{val_loss:.4f}",
+            val_acc=f"{val_acc:.4f}",
+            best=f"{best_val_acc:.4f}",
+            vram=f"{gpu_mem:.0f}MB",
+            lr=f"{current_lr:.2e}",
+        )
+
         if early_stop.step(val_loss, model):
-            if verbose:
-                print(f"  Early stopping at epoch {epoch}")
+            epoch_bar.write(f"  [{model_name}] Early stopping at epoch {epoch}")
             break
 
+    epoch_bar.close()
     early_stop.restore_best(model)
+
     if verbose:
-        print(f"  Best val acc: {best_val_acc:.4f}")
+        tqdm.write(f"  [{model_name}] Best val acc: {best_val_acc:.4f}")
 
     return history

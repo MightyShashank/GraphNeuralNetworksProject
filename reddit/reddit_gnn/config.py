@@ -21,6 +21,7 @@ RESULTS_ROOT = os.path.join(PROJECT_ROOT, "results")
 EMBEDDINGS_DIR = os.path.join(RESULTS_ROOT, "embeddings")
 CHECKPOINTS_DIR = os.path.join(RESULTS_ROOT, "checkpoints")
 LOGS_DIR = os.path.join(RESULTS_ROOT, "logs")
+FIGURES_DIR = os.path.join(RESULTS_ROOT, "figures")
 
 # ─── Dataset constants ──────────────────────────────────────────────────────
 NUM_CLASSES = 41
@@ -134,5 +135,10 @@ WANDB_ENABLED = True  # Set to False for CSV-only logging
 
 # ─── Ensure directories exist ──────────────────────────────────────────────
 for _dir in [DATA_ROOT, REDDIT_RAW, PREPROCESSED, SGC_DIR, CLUSTER_DIR,
-             SAINT_DIR, RESULTS_ROOT, EMBEDDINGS_DIR, CHECKPOINTS_DIR, LOGS_DIR]:
+             SAINT_DIR, RESULTS_ROOT, EMBEDDINGS_DIR, CHECKPOINTS_DIR, LOGS_DIR,
+             FIGURES_DIR,
+             os.path.join(FIGURES_DIR, "01_baseline"),
+             os.path.join(FIGURES_DIR, "02_ablation"),
+             os.path.join(FIGURES_DIR, "03_visualisation"),
+             os.path.join(FIGURES_DIR, "04_efficiency")]:
     os.makedirs(_dir, exist_ok=True)

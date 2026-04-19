@@ -1,14 +1,53 @@
-torch>=2.1.0
-torch-geometric>=2.4.0
+# ──────────────────────────────────────────────────────────────────────────────
+# Reddit GNN — Python Dependencies
+#
+# IMPORTANT — PyG C++ extensions (torch-sparse, torch-scatter, pyg-lib) are
+# BINARY packages that must match your exact PyTorch + CUDA version.
+#
+# These are pinned to: PyTorch 2.4.x + CUDA 12.1 (pt24cu121).
+# If you change your PyTorch version, reinstall the three PyG extensions using:
+#
+#   pip install torch-scatter torch-sparse pyg-lib \
+#       -f https://data.pyg.org/whl/torch-2.4.0+cu121.html \
+#       --force-reinstall
+#
+# See the README "Step 0: Environment Setup" for the full setup sequence.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Core — PyTorch (must be installed FIRST, before PyG extensions)
+torch>=2.4.1
+
+# PyG core (no binary wheels needed — pure Python)
+torch-geometric>=2.6.0
+
+# PyG C++ extensions — MUST match PyTorch ABI.
+# Install via wheel index, NOT plain pip install:
+#   pip install torch-scatter torch-sparse pyg-lib \
+#       -f https://data.pyg.org/whl/torch-2.4.0+cu121.html
+# Versions below reflect what is confirmed working with pt24cu121.
 torch-sparse>=0.6.18
 torch-scatter>=2.1.2
-pyg-lib>=0.3.0
+pyg-lib>=0.4.0
+
+# Numerics
 numpy>=1.24
 scipy>=1.10
+
+# ML utilities
 scikit-learn>=1.3
+
+# Visualization
 matplotlib>=3.7
 seaborn>=0.12
+
+# Data handling
 pandas>=2.0
+
+# Embedding visualization
 umap-learn>=0.5.4
+
+# Experiment tracking
 wandb>=0.16
+
+# Progress bars
 tqdm
